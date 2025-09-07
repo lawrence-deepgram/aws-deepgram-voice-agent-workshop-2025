@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>WebSocket Microphone Streaming</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="./js/config.js"></script>
+  <!-- <script src="./js/service.js"></script> -->
+  <script src="./js/animation.js"></script>
+  <script src="./js/audio.js"></script>
+  <script src="./js/main.js"></script>
+</head>
+
+<body>
+  <div class="animation center-div">
+    <canvas id="blobCanvas" width="700" height="700" style="display: none;"></canvas>
+  </div>
+  <div class="center-div" id="startContainer">
+    <label>Model</label></br>
+    <select id="model">
+      <option value="us.anthropic.claude-sonnet-4-20250514-v1:0">Amazon Bedrock: Claude Sonnet 4</option>
+      <option value="us.amazon.nova-lite-v1:0"">Amazon Bedrock: Nova Lite</option>
+      <option value="us.amazon.nova-pro-v1:0">Amazon Bedrock: Nova Pro</option>
+    </select>
+    </br>
+    <label>Voice</label></br>
+    <select id="voice">
+      <option value="aura-2-thalia-en" selected>Thalia</option>
+      <option value="aura-2-apollo-en">Apollo</option>
+    </select>
+    </br>
+    <button id="startConversationBtn" disabled>Loading...</button>
+  </div>
+
+  <div class="center-div" id="instructionsContainer" style="display: none;">
+    <textarea id="instructionsInput" placeholder="Enter instructions here..."></textarea>
+    <br>
+    <button id="updateInstructionsBtn">Update Instructions</button>
+  </div>
+
+  <div class="center-div" id="buttonContainer" style="display: none;">
+    <div class="circle-button" id="aura-2-thalia-en">
+      <div class="button-title">Thalia</div>
+    </div>
+    <div class="circle-button" id="aura-2-apollo-en">
+      <div class="button-title">Apollo</div>
+    </div>
+  </div>
+
+  <div class="center-div" id="orderContainer">
+    <div>
+      <h2>
+        Your Meetings
+      </h2>
+
+      <div>
+        <ul id="eventItems" className="no-bullets"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="questions">
+    <h1>Questions I can help with</h1>
+    <div id="items"></div>
+  </div>
+
+</body>
+
+</html>
