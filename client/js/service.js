@@ -20,19 +20,23 @@ const service = {
       return callIDText;
     },
   
-    getEvents: async function(callID) {
-      console.log("BASE_URL", BASE_URL);
-      const order = await fetch(`${BASE_URL}/calls/${callID}/events`, {
-        method: "GET",
-        headers: this.headers,
-      });
-      if (!order.ok) {
-        const errorText = await order.text();
-        console.error("Failed to get events:", order.status, errorText);
-        throw new Error(`Failed to get events: ${order.status} ${errorText}`);
-      }
-  
-      const eventsJSON = await order.json();
-      return eventsJSON.items;
+  getEvents: async function(callID) {
+    console.log("BASE_URL", BASE_URL);
+    
+    // Wait 500ms before making the fetch request
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    const order = await fetch(`${BASE_URL}/calls/${callID}/events`, {
+      method: "GET",
+      headers: this.headers,
+    });
+    if (!order.ok) {
+      const errorText = await order.text();
+      console.error("Failed to get events:", order.status, errorText);
+      throw new Error(`Failed to get events: ${order.status} ${errorText}`);
     }
+
+    const eventsJSON = await order.json();
+    return eventsJSON.items;
   }
+}

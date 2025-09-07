@@ -164,16 +164,6 @@ async function handleMessageEvent(data){
   }
   
   if (!state.callID || state.status === 'sleeping') return;
-
-  // Skip server sync when using client-side only mode
-  // const events = await service.getEvents(state.callID);
-  // if (events) {
-  //     // Consolidate order needed because sometimes server can send back duplicate items
-  //     state.events = events;
-  // }
-  
-  // // Update UI with current client-side state
-  // updateEventsUI();
 }
 
 // Handle function calls from the voice agent
@@ -192,6 +182,14 @@ async function handleFunctionCallRequest(functionCallMessage) {
     if (clientside && functionName === "add_meeting_client_side") {
       result = await addMeetingClientSide(parameters);
       success = true;
+    } else if (!clientside) {
+      console.log("Server-side function call");
+      const events = await service.getEvents(state.callID);
+      if (events) {
+          state.events = events;
+      }
+      updateEventsUI();
+      return;
     } else {
       result = `Unknown function: ${functionName}`;
       success = false;
