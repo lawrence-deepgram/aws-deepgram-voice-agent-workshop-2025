@@ -9,7 +9,33 @@ window.onload = function () {
   document.getElementById("startConversationBtn").addEventListener("click", () => {
     startConversaton(model, voice);
   });
+  
+  // Initialize modal functionality
+  initializeModal();
 };
+
+function initializeModal() {
+  const modal = document.getElementById("questionsModal");
+  const showQuestionsBtn = document.getElementById("showQuestionsBtn");
+  const closeModal = document.getElementById("closeModal");
+  
+  // Show modal when button is clicked
+  showQuestionsBtn.addEventListener("click", () => {
+    modal.style.display = "block";
+  });
+  
+  // Close modal when X is clicked
+  closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+  
+  // Close modal when clicking outside of it
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+}
 
 function startConversaton(model, voice) {
   const config = configureSettings(model, voice);
@@ -162,8 +188,57 @@ async function handleMessageEvent(data){
     await handleFunctionCallRequest(msgObj);
     return;
   }
+
+  if (msgObj["type"] === "ConversationText") {
+    await handleConversationText(msgObj);
+    return;
+  }
   
   if (!state.callID || state.status === 'sleeping') return;
+}
+
+async function handleConversationText(conversationTextMessage) {
+  // console.log("Received conversation text:", conversationTextMessage);
+  const conversationUser = conversationTextMessage.role;
+  const conversationContent = conversationTextMessage.content;
+  state.conversation.push({"role": conversationUser, "content": conversationContent});
+  console.log("state.conversation:", state.conversation);
+  updateConversationUI();
+}
+
+// Update the UI to display conversation messages
+function updateConversationUI() {
+  const conversationMessages = document.getElementById('conversationMessages');
+  if (!conversationMessages) {
+    console.warn("conversationMessages element not found in DOM");
+    return;
+  }
+  
+  // Clear existing messages
+  conversationMessages.innerHTML = '';
+  
+  console.log("updateConversationUI - state.conversation:", state.conversation);
+  if (state.conversation && state.conversation.length > 0) {
+    state.conversation.forEach((message) => {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${message.role}`;
+      
+      const roleDiv = document.createElement('div');
+      roleDiv.className = `message-role ${message.role}`;
+      roleDiv.textContent = message.role === 'assistant' ? 'Agent:' : 'User:';
+      
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'message-content';
+      contentDiv.textContent = message.content;
+      
+      messageDiv.appendChild(roleDiv);
+      messageDiv.appendChild(contentDiv);
+      conversationMessages.appendChild(messageDiv);
+    });
+    
+    // Scroll to bottom of conversation
+    conversationMessages.scrollTop = conversationMessages.scrollHeight;
+  }
 }
 
 // Handle function calls from the voice agent

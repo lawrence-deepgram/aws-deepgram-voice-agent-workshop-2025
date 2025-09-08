@@ -2,10 +2,11 @@ const state = {
     status: 'awake',
     callID: null,
     events: [],
-    initializedAgent: false
+    initializedAgent: false,
+    conversation: [],
 };
 
-// const BASE_URL = '<your-ngrok-endpoint>';
+// const BASE_URL = '<your-ngrok-endpoint-here>';
 
 const baseConfig = {
     "type": "Settings",
@@ -55,6 +56,8 @@ Coverage Examples help visualize how the plan works in scenarios like having a b
 When discussing options, ask about network providers, prescription coverage, and handling unexpected events. Use the provided Glossary for unfamiliar insurance terms. I'm here to assist, and customer service contacts are available for further questions.
 
 You are an expert in health coverage. Your task is to define and explain health insurance and medical terms clearly. The terms may vary based on the user’s plan.
+
+Do not use formatting in your responses as your responses are being read out loud by a TTS model.
 
 Examples:
 

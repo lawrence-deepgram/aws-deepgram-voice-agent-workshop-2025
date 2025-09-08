@@ -62,9 +62,28 @@
     </div>
   </div>
 
-  <div class="questions">
-    <h1>Questions I can help with</h1>
-    <div id="items"></div>
+  <!-- Conversation Area -->
+  <div class="conversation-area">
+    <div class="conversation-header">
+      <h2>Conversation</h2>
+      <button id="showQuestionsBtn" class="questions-btn">Sample Questions</button>
+    </div>
+    <div class="conversation-messages" id="conversationMessages">
+      <!-- Conversation messages will be populated here -->
+    </div>
+  </div>
+
+  <!-- Questions Modal -->
+  <div id="questionsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1>Questions I can help with</h1>
+        <span class="close" id="closeModal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div id="items"></div>
+      </div>
+    </div>
   </div>
 
 </body>

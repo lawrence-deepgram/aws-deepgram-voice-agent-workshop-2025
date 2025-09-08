@@ -51,13 +51,13 @@ cd aws-deepgram-voice-agent-workshop-2025
 > ⚠️ **Security Warning**: Never commit API keys to version control. Consider using environment variables or a `.env` file for production applications.
 
 #### Configure Deepgram API Key
-Edit `client/js/main.js` at **line 16**:
+Edit `client/js/main.js` at **line 42**:
 ```javascript
 let ws = new WebSocket("wss://agent.deepgram.com/v1/agent/converse", ["token", "<your-deepgram-api-key-here>"]);
 ```
 
 #### Configure AWS Credentials
-Edit `client/js/config.js` at **lines 41-42**:
+Edit `client/js/config.js` at **lines 42-43**:
 ```javascript
 access_key_id: "<your-access-key-id>",
 secret_access_key: "<your-secret-access-key>"
@@ -134,9 +134,9 @@ Copy the HTTPS URL (e.g., `https://abc123.ngrok.io`)
 
 ### Client Configuration Updates
 
-1. **Update service endpoint** in `client/js/config.js` at **line 8**:
+1. **Update service endpoint** in `client/js/config.js` at **line 9**:
 ```javascript
-const BASE_URL = 'https://your-ngrok-endpoint-here.ngrok.io';
+const BASE_URL = '<your-ngrok-endpoint-here>';
 ```
 
 2. **Enable server-side service** in `client/index.html` by uncommenting **line 11**:
@@ -145,10 +145,11 @@ const BASE_URL = 'https://your-ngrok-endpoint-here.ngrok.io';
 ```
 
 3. **Switch to server-side function calling** in `client/js/config.js`:
-   - Comment out the `add_meeting_client_side` function (lines 93-108)
-   - Ensure the `add_meeting` function is uncommented (lines 109-129)
+   - Comment out the `add_meeting_client_side` function (lines 96-111)
+   - Ensure the `add_meeting` function is uncommented (lines 112-131)
+   - What's the difference between the 2?
 
-4. **Update main.js** at **lines 273-274**:
+4. **Update main.js** at **lines 348-349**:
 ```javascript
 // state.callID = "123";
 state.callID = await service.getCallID();
@@ -226,4 +227,6 @@ The demo includes a meeting scheduling function that demonstrates:
 ## Next Steps
 
 This workshop provides a foundation for building production voice agents. Consider extending it with:
-
+- Can you create client-side and server-side functions for deleting the appointments?
+- Can you update the Speak model (TTS) of the Voice Agent? Or can you update the prompt so that it starts off generic and slowly becomes more specific over the course of a conversation?
+- Can you trigger the Voice Agent to say a specific phrase? 
