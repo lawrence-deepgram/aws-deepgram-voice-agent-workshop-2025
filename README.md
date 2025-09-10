@@ -11,6 +11,7 @@ This workshop demonstrates how to build an AI voice agent using Deepgram's Voice
 
 ## Resources
 - [Deepgram Voice Agent Documention](https://developers.deepgram.com/docs/voice-agent)
+- [Getting Started with Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/getting-started.html)
 
 ## Prerequisites
 
@@ -21,7 +22,7 @@ This workshop demonstrates how to build an AI voice agent using Deepgram's Voice
 
 ### 2. AWS Account Setup
 - Ensure you have an AWS account with **Amazon Bedrock access**
-- Create an IAM user with appropriate Bedrock permissions
+- Create/Use an IAM user with appropriate Bedrock permissions
 - Generate Access Key ID and Secret Access Key for programmatic access
 - Note the AWS region you want to use (e.g., `us-east-2`)
 
@@ -57,7 +58,7 @@ let ws = new WebSocket("wss://agent.deepgram.com/v1/agent/converse", ["token", "
 ```
 
 #### Configure AWS Credentials
-Edit `client/js/config.js` at **lines 42-43**:
+Edit `client/js/config.js` at **lines 51-52**:
 ```javascript
 access_key_id: "<your-access-key-id>",
 secret_access_key: "<your-secret-access-key>"
@@ -134,22 +135,22 @@ Copy the HTTPS URL (e.g., `https://abc123.ngrok.io`)
 
 ### Client Configuration Updates
 
-1. **Update service endpoint** in `client/js/config.js` at **line 9**:
-```javascript
-const BASE_URL = '<your-ngrok-endpoint-here>';
-```
-
-2. **Enable server-side service** in `client/index.html` by uncommenting **line 11**:
+1. **Enable server-side service** in `client/index.html` by uncommenting **line 11**:
 ```html
 <script src="./js/service.js"></script>
 ```
 
-3. **Switch to server-side function calling** in `client/js/config.js`:
-   - Comment out the `add_meeting_client_side` function (lines 96-111)
-   - Ensure the `add_meeting` function is uncommented (lines 112-131)
-   - What's the difference between the 2?
+2. **Uncomment and Update service endpoint** in `client/js/config.js` at **line 9**:
+```javascript
+const BASE_URL = '<your-ngrok-endpoint-here>';
+```
 
-4. **Update main.js** at **lines 348-349**:
+3. **Switch to server-side function calling** in `client/js/config.js`:
+   - Comment out the `add_meeting_client_side` function (lines 105-120)
+   - Ensure the `add_meeting` function is uncommented (lines 121-140)
+   - Can you spot the difference between the 2?
+
+4. **Update main.js** at **lines 349-350**:
 ```javascript
 // state.callID = "123";
 state.callID = await service.getCallID();
@@ -160,6 +161,16 @@ state.callID = await service.getCallID();
 2. Open your browser to `http://localhost:8080`
 3. Try scheduling a meeting - it will now be processed server-side
 4. Check the server terminal logs to see the function calls being processed
+
+## Part 3: Explore and Extend the Voice Agent
+
+Now that you know a little bit about the Voice Agent API, can you extend its functionality even more? Take a look at our [documentation](https://developers.deepgram.com/docs/voice-agent) and consider the following:
+- Can you create client-side and server-side functions for deleting the appointments?
+- Can you update the prompt continuously over the course of a conversation?
+- Can you trigger the Voice Agent to say a specific phrase? 
+- Can you improve on the application to add mute mic capabilities or improve echo cancellation?
+
+Play around with the functionalities and let us know what cool features/functionalities you built or ideas you have!
 
 ## Project Structure
 
@@ -223,10 +234,3 @@ The demo includes a meeting scheduling function that demonstrates:
 - Open browser Developer Tools to view console logs
 - Check the Network tab for WebSocket connection status
 - Monitor server terminal output for function call processing
-
-## Next Steps
-
-This workshop provides a foundation for building production voice agents. Consider extending it with:
-- Can you create client-side and server-side functions for deleting the appointments?
-- Can you update the Speak model (TTS) of the Voice Agent? Or can you update the prompt so that it starts off generic and slowly becomes more specific over the course of a conversation?
-- Can you trigger the Voice Agent to say a specific phrase? 

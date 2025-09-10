@@ -22,6 +22,15 @@ const baseConfig = {
         },
         "speak": { "provider": { "type": "deepgram", "model": "aura-2-thalia-en" },
         },
+        "context": {
+            "messages": [
+                {
+                    "type": "History",
+                    "role": "user",
+                    "content": "Hi!"
+                }
+            ]
+        },
         "greeting": "Hello, I am an AI assistant for Health Insurance questions. How can I help you today?"
     }
 }
