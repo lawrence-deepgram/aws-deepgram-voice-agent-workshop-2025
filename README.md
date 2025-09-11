@@ -58,11 +58,21 @@ let ws = new WebSocket("wss://agent.deepgram.com/v1/agent/converse", ["token", "
 ```
 
 #### Configure AWS Credentials
-Edit `client/js/config.js` at **lines 51-52**:
+Edit `client/js/config.js` at **lines 45-55**:
 ```javascript
-access_key_id: "<your-access-key-id>",
-secret_access_key: "<your-secret-access-key>"
+provider: {
+    type: "aws_bedrock",
+    model: "us.anthropic.claude-sonnet-4-20250514-v1:0",
+    credentials: {
+        type: "iam", // or "sts"
+        region: "us-east-2",
+        access_key_id: "<your-access-key-id>",
+        secret_access_key: "<your-secret-access-key>",
+        // session_token: "<your-session-token>" // required for "sts", remove or comment out if using "iam"
+    }
+},
 ```
+See documentation here for more details: https://developers.deepgram.com/reference/voice-agent-api/agent#send.sendSettings.agent.think.provider.ChannelsAgentMessagesSettingsAgentThinkProvider1.credentials
 
 ## Part 1: Client-Side Demo
 
@@ -146,8 +156,8 @@ const BASE_URL = '<your-ngrok-endpoint-here>';
 ```
 
 3. **Switch to server-side function calling** in `client/js/config.js`:
-   - Comment out the `add_meeting_client_side` function (lines 105-120)
-   - Ensure the `add_meeting` function is uncommented (lines 121-140)
+   - Comment out the `add_meeting_client_side` function (lines 106-121)
+   - Ensure the `add_meeting` function is uncommented (lines 122-141)
    - Can you spot the difference between the 2?
 
 4. **Update main.js** at **lines 349-350**:

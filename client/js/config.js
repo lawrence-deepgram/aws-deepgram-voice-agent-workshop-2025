@@ -46,10 +46,11 @@ function getStsConfig(callID) {
                     type: "aws_bedrock",
                     model: "us.anthropic.claude-sonnet-4-20250514-v1:0",
                     credentials: {
-                        type: "iam",
+                        type: "iam", // or "sts"
                         region: "us-east-2",
                         access_key_id: "<your-access-key-id>",
-                        secret_access_key: "<your-secret-access-key>"
+                        secret_access_key: "<your-secret-access-key>",
+                        // session_token: "<your-session-token>" // required for "sts", remove or comment out if using "iam"
                     }
                 },
                 endpoint: {
